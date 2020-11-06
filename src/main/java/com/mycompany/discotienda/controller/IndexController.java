@@ -26,4 +26,9 @@ public class IndexController {
     public IndexController() {
     }
     
+    public String login(){
+        return "login";    
+    }
+    
+    
 }
