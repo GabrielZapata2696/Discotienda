@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Discotienda - Administrador</title>       
+        <style>
+            body{
+                background-image: url("../../resources/images/admin_background.jpg");                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;     
+            }
+            .pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+
+
+
+
+            body .ui-menu .ui-menu-nav .ui-menuitem{
+                background-color: transparent;
+            }
+
+            body .ui-menu .ui-menu-nav .ui-menuitem.ui-state-active{
+                background-color: transparent;
+                border: 1px solid #333;
+
+            }
+            body .ui-menu .ui-menu-nav .ui-menuitem:hover {
+                background-color: dimgrey;
+                border: 1px solid dimgrey;
+            } 
+
+        </style>
+
+
+    </h:head>
+    <h:body styleClass="body" >
+
+        <h:form id="formAdmin">            
+
+            <p:menubar>
+                <p:menuitem value="  Inicio" outcome="${administradorController.inicioAdmin()}" icon="pi pi-home">                    
+                </p:menuitem> 
+
+                <p:submenu label="  Gestion Clientes" icon="pi pi-users">
+                    <p:menuitem value="Buscar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-search" />
+                    <p:menuitem value="Crear" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-user-plus" />
+                    <p:menuitem value="Editar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-pencil" />
+                    <p:menuitem value="Eliminar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-user-minus" />
+                </p:submenu>
+
+                <p:submenu label="  Gestion Artistas" icon="pi pi-sliders-h">
+                    <p:menuitem value="Buscar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-search" />
+                    <p:menuitem value="Crear" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-plus" />
+                    <p:menuitem value="Editar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-pencil" />
+                    <p:menuitem value="Eliminar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-times" />
+                </p:submenu>
+
+                <p:submenu label="  Gestion Albumes" icon="pi pi-sliders-h">
+                    <p:menuitem value="Buscar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-search" />
+                    <p:menuitem value="Crear" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-plus" />
+                    <p:menuitem value="Editar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-pencil" />
+                    <p:menuitem value="Eliminar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-times" />
+                </p:submenu>
+
+                <p:submenu label="  Gestion Canciones" icon="pi pi-sliders-h">
+                    <p:menuitem value="Buscar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-search" />
+                    <p:menuitem value="Crear" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-plus" />
+                    <p:menuitem value="Editar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-pencil" />
+                    <p:menuitem value="Eliminar" url="#" outcome="${administradorController.inicioAdmin()}" icon="pi pi-times" />
+                </p:submenu>
+                
+                <p:menuitem value="  Salir" outcome="${administradorController.inicioAdmin()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+
+            </p:menubar>
+
+
+
+            <p:growl id="growl" showDetail="true"  life="5000"/> 
+        </h:form>
+
+    </h:body>
+</html>
+

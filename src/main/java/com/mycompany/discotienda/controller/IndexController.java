@@ -5,8 +5,12 @@
  */
 package com.mycompany.discotienda.controller;
 
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -15,20 +19,27 @@ import javax.enterprise.context.RequestScoped;
  * @since 05/11/2020
  * @version 1.0.0
  */
-
 @Named(value = "indexController")
-@RequestScoped
-public class IndexController {
+@ViewScoped
+public class IndexController implements Serializable {
 
+    @Inject
+    private SessionKey sessionKey ;
+     
     /**
      * Creates a new instance of IndexController
      */
     public IndexController() {
     }
-    
-    public String login(){
-        return "login";    
+
+    @PostConstruct
+    public void init() {        
+       
+
     }
-    
-    
+
+    public String login() {
+        return "login";
+    }
+
 }

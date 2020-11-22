@@ -4,15 +4,34 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    
+    <filter>
+        <filter-name>restrict</filter-name>
+        <filter-class>com.mycompany.discotienda.help.SecurityFilter</filter-class>                
+    </filter>
+    <filter-mapping>
+        <filter-name>restrict</filter-name>
+        <url-pattern>/faces/secure/*</url-pattern>        
+    </filter-mapping>
+    
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>nova-dark</param-value>
+    </context-param>
+    
+    
     <session-config>
         <session-timeout>
             30
@@ -22,9 +41,22 @@
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     
+          
     <mime-mapping>
         <extension>ttf</extension>
         <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/x-font-eot</mime-type>
     </mime-mapping>
     
 </web-app>
