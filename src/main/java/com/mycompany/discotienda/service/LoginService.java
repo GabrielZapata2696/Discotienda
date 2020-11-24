@@ -35,11 +35,12 @@ public class LoginService {
             context.getExternalContext().getSessionMap().put(user.getDocumento() + "", user);
             Map<String,Object> mapSession = context.getExternalContext().getSessionMap();
             this.sessionKey = new SessionKey();            
-            int key = Integer.parseInt(user.getDocumento());            
+            int key = Integer.parseInt(user.getDocumento());      
+            this.sessionKey.setInstance(context);
             this.sessionKey.setLlave((Integer) key);
             this.sessionKey.setUser(user);
-            //this.sessionKey.setSessionMap(mapSession);
-            //System.out.println("Llave: "+ this.sessionKey.getLlave());
+            this.sessionKey.setSessionMap(mapSession);
+            System.out.println("Llave: "+ this.sessionKey.getLlave());
         } else {
 
             context.getExternalContext().getSessionMap().put(-1 + "", null);

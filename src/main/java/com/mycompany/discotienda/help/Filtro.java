@@ -8,9 +8,7 @@ package com.mycompany.discotienda.help;
 import com.mycompany.discotienda.controller.SessionKey;
 import com.mycompany.discotienda.pojo.Usuario;
 import java.io.IOException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import java.io.Serializable;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,58 +18,49 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author SpacemanFromHell
  */
-@Named(value = "securityFilter")
-@SessionScoped
-public class SecurityFilter implements Serializable, Filter {
+public class Filtro implements Filter {
 
     @Inject
     private SessionKey sessionKey;
-
-    /**
-     * Creates a new instance of SecurityFilter
-     */
-    public SecurityFilter() {
-    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Entro al filtro");
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {        
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String url = req.getRequestURL().toString();
+        String url = req.getRequestURL().toString();    
         // FacesContext context = this.sessionKey.getInstance();
         if (this.sessionKey.getLlave() < 0) {
             System.out.println("Entro a negativo");
             res.sendRedirect("../login.xhtml");
 
         } else {
-
-            if (this.sessionKey.getSessionMap() == null) {
+            // if (this.sessionKey.getSessionMap() == null) {
+            if (this.sessionKey.getInstance() == null) {
                 //redireccionar
                 System.out.println("Entro a instancia nula");
                 res.sendRedirect("../login.xhtml");
 
-            } else {
-                //(Usuario) this.sessionKey.getSessionMap().get(this.sessionKey.getLlave() + "");
-                Usuario user = this.sessionKey.getUser();
-
-                if (user != null) {
-                    System.out.println("Entro filtro admin");
-                    if (url.contains("admin") && user.getRol() == 1) {
+            } else {              
+                HttpSession session = ((HttpServletRequest) request).getSession();
+                Usuario user = (Usuario) session.getAttribute(this.sessionKey.getLlave() + "");
+                if (user != null) {                    
+                    if (url.contains("/admin/") && user.getRol() == 1) {
                         chain.doFilter(request, response);
 
-                    } else if (url.contains("client") && user.getRol() == 2) {
+                    } else if (url.contains("/client/") && user.getRol() == 2) {                        
                         chain.doFilter(request, response);
                     } else {
+                        System.out.println("No tiene permisos para acceder a esta pagina");
                         res.sendRedirect("../login.xhtml");
                     }
 
@@ -86,6 +75,7 @@ public class SecurityFilter implements Serializable, Filter {
 
     @Override
     public void destroy() {
+
     }
 
 }

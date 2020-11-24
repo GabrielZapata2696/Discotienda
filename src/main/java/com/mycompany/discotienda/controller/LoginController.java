@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -27,7 +28,7 @@ import javax.inject.Inject;
  * @version 1.0.0
  */
 @Named(value = "loginController")
-@SessionScoped
+@ViewScoped
 public class LoginController implements Serializable {
 
     private String email;
@@ -48,18 +49,16 @@ public class LoginController implements Serializable {
         LoginService loginService = new LoginService();
         Usuario user = loginService.login(this.email, this.password);
         if (user != null) {
-            try {
-                context.getExternalContext().getSessionMap().put(user.getDocumento(), user);
-
-                Map<String, Object> mapSession = context.getExternalContext().getSessionMap();
-
+            try {                
+                context.getExternalContext().getSessionMap().put(user.getDocumento(), user);                
+                Map<String, Object> mapSession = context.getExternalContext().getSessionMap();                                              
                 int key = Integer.parseInt(user.getDocumento());
                 this.sessionKey.setLlave((Integer) key);
                 this.sessionKey.setUser(user);
-                //this.sessionKey.setSessionMap(mapSession);
-                //session.setInstance(context);
+                this.sessionKey.setSessionMap(mapSession);
+                this.sessionKey.setInstance(context);
 
-                if (user.getRol() == 1) {
+                if (user.getRol() == 1) {                        
                     FacesContext.getCurrentInstance().getExternalContext().redirect("secure/admin/administrador.xhtml");
                 } else if (user.getRol() == 2) {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("secure/client/cliente.xhtml");
@@ -75,6 +74,7 @@ public class LoginController implements Serializable {
 
         return redirect;
     }
+   
 
     public String index() {
         return "index";
