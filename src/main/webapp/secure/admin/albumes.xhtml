@@ -249,7 +249,7 @@
                                 <f:facet name="header">
                                     Descripcion                                
                                 </f:facet>
-                                <p:ajax event="cellEdit" listener="#{albumesController.onCellEdit}" update=":formAdmin:msgs"  />
+                                <p:ajax event="cellEdit" listener="#{albumesController.onCellEditAlbumes}" update=":formAdmin:msgs"  />
 
                                 <p:column headerText="Nombre">
                                     <p:cellEditor>                                
@@ -282,8 +282,18 @@
                                     <p:commandButton 
                                         id="botonCanciones"                                         
                                         actionListener="${albumesController.onClickCanciones(album.id_album)}" 
-                                        icon="pi pi-filter"
+                                        icon="pi pi-bell"
                                         update=":formAdmin:paneldlg"
+                                        >                        
+                                    </p:commandButton>
+                                </p:column>
+                                
+                                <p:column headerText="Eliminar">
+                                    <p:commandButton 
+                                        id="boton_ElimAlbum"                                         
+                                        actionListener="${albumesController.onClickElimAlbum(album.id_album)}" 
+                                        icon="pi pi-times"
+                                        update=":formAdmin"
                                         >                        
                                     </p:commandButton>
                                 </p:column>
@@ -326,7 +336,7 @@
                             Listado de Canciones
                         </f:facet>
 
-                        <p:ajax event="cellEdit" listener="#{albumesController.onCellEdit}" update=":formAdmin:msgs"  />                       
+                        <p:ajax event="cellEdit" listener="#{albumesController.onCellEditCancion}" update=":formAdmin:msgs"  />                       
 
                         <p:column headerText="Nombre">
                             <p:cellEditor>
@@ -350,7 +360,7 @@
                         </p:column>  
 
                         <p:column headerText="Eliminar">
-                            <p:commandButton id="botonEliminar" actionListener="${albumesController.eliminar(cancion.id)}"  ajax="true" update=":formAdmin:paneldlg" icon="pi pi-times" >                        
+                            <p:commandButton id="botonEliminar" actionListener="${albumesController.eliminarCancion(cancion.id)}" oncomplete="PF('dlg').hide();" ajax="true" update=":formAdmin:msgs" icon="pi pi-times" >                        
                             </p:commandButton>
                         </p:column>
 

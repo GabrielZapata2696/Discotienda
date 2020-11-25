@@ -193,6 +193,76 @@ public class DAOAdmin {
         return listadoArtistas;
     }
 
+    public Album Consultar_AlbumXId(int id) {
+        String _SQL = "SELECT * FROM tienda.f_consultar_album_x_id( ?);";
+        Album album = null;
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            while (rs.next()) {
+                album = new Album();
+                album.setId_album(rs.getInt("id_album"));
+                album.setNombre(rs.getString("nombre"));
+                album.setPrecio(rs.getDouble("precio"));
+                album.setEstado(rs.getInt("estado"));
+                album.setId_artista(rs.getInt("id_artista"));
+                album.setAnio(rs.getInt("anio"));
+                album.setDuracion(rs.getInt("duracion"));
+                album.setUrl_img(rs.getString("img_url"));
+            }
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return album;
+    }
+
+    public boolean EditarAlbum(Album album) {
+        String _SQL = "SELECT * FROM tienda.f_editar_album_x_id( ?, ?::text, ?, ?, ?, ?::text);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, album.getId_album());
+            preparedStatement.setString(2, album.getNombre());
+            preparedStatement.setDouble(3, album.getPrecio());
+            preparedStatement.setInt(4, album.getAnio());
+            preparedStatement.setInt(5, album.getDuracion());
+            preparedStatement.setString(6, album.getUrl_img());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+    }
+
     public List<Album> ConsultarAlbumes_XArtista(int idArtista) {
         String _SQL = "SELECT * FROM tienda.f_consultar_album_x_artista( ?);";
         Album album = null;
@@ -209,12 +279,12 @@ public class DAOAdmin {
                 album = new Album();
                 album.setId_album(rs.getInt("id_album"));
                 album.setNombre(rs.getString("nombre"));
-                album.setPrecio(rs.getDouble("precio"));               
+                album.setPrecio(rs.getDouble("precio"));
                 album.setEstado(rs.getInt("estado"));
                 album.setId_artista(rs.getInt("id_artista"));
                 album.setAnio(rs.getInt("anio"));
                 album.setDuracion(rs.getInt("duracion"));
-                album.setUrl_img(rs.getString("img_url"));                                                
+                album.setUrl_img(rs.getString("img_url"));
                 listaAlbum.add(album);
             }
             preparedStatement.close();
@@ -233,9 +303,8 @@ public class DAOAdmin {
         return listaAlbum;
 
     }
-    
-    
-    public List<Cancion> ConsultarCanciones_XAlbum(int idAlbum){
+
+    public List<Cancion> ConsultarCanciones_XAlbum(int idAlbum) {
         String _SQL = "SELECT * FROM tienda.f_consultar_canciones_x_album( ?);";
         Cancion cancion = null;
         List<Cancion> listaCanciones = null;
@@ -251,7 +320,7 @@ public class DAOAdmin {
                 cancion = new Cancion();
                 cancion.setId(rs.getInt("id"));
                 cancion.setNombre(rs.getString("nombre"));
-                cancion.setDuracion(rs.getString("duracion"));               
+                cancion.setDuracion(rs.getString("duracion"));
                 cancion.setPrecio(rs.getInt("precio"));
                 cancion.setEstado(rs.getInt("estado"));
                 cancion.setId_artista(rs.getInt("id_artista"));
@@ -271,10 +340,133 @@ public class DAOAdmin {
                 System.err.println(e);
             }
         }
-        
+
         return listaCanciones;
 
     }
-    
 
+    public Cancion Consultar_CancionXId(int id) {
+        String _SQL = "SELECT * FROM tienda.f_consultar_cancion_x_id( ?);";
+        Cancion cancion = null;
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            while (rs.next()) {
+                cancion = new Cancion();
+                cancion.setId_album(rs.getInt("id_album"));
+                cancion.setNombre(rs.getString("nombre"));
+                cancion.setPrecio(rs.getDouble("precio"));
+                cancion.setEstado(rs.getInt("estado"));
+                cancion.setId_artista(rs.getInt("id_artista"));
+                cancion.setId(rs.getInt("id"));
+                cancion.setDuracion(rs.getString("duracion"));
+            }
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return cancion;
+    }
+
+    public boolean EditarCancion(Cancion cancion) {
+        String _SQL = "SELECT * FROM tienda.f_editar_cancion_x_id( ?, ?::text, ?, ?::text);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, cancion.getId());
+            preparedStatement.setString(2, cancion.getNombre());
+            preparedStatement.setDouble(3, cancion.getPrecio());
+            preparedStatement.setString(4, cancion.getDuracion()); 
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+    }
+
+    public boolean EliminarCancion(int idCancion) {
+        String _SQL = "SELECT * FROM tienda.f_eliminar_cancion( ?);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, idCancion);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+    }
+
+    public boolean EliminarAlbum(int idAlbum) {
+        String _SQL = "SELECT * FROM tienda.f_eliminar_album( ?);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setInt(1, idAlbum);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+    }
+
+    
 }
