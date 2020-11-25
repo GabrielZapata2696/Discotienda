@@ -63,7 +63,7 @@
                 color: wheat;
             }
 
-             body .ui-button {
+            body .ui-button {
                 background-color: #990000;
                 color: white;
                 border-color: white;
@@ -71,7 +71,7 @@
             }
 
             body .ui-button.ui-state-hover{
-                
+
                 background-color: #dd3131;
                 border-color: white;
                 color: white;                
@@ -116,7 +116,7 @@
                     <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('administrador')}" icon="pi pi-cog" />
                 </p:submenu>
                 <p:submenu label="  Albumes" icon="pi pi-sliders-h">
-                    <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('administrador')}" icon="pi pi-cog" />
+                    <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('albumes')}" icon="pi pi-cog" />
                 </p:submenu>
                 <p:submenu label="  Canciones" icon="pi pi-sliders-h">
                     <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('administrador')}" icon="pi pi-cog" />
@@ -124,10 +124,30 @@
                 <p:menuitem value="  Salir" actionListener="${clientesController.cerrarSesion()}" icon="pi pi-sign-out">               
                 </p:menuitem> 
             </p:menubar>
-       
+
             <br/>
             <br/>
-            <p:dataTable id="dtclientes" var="cliente" value="#{clientesController.listadoInicial}" rowKey="#{cliente.id}" selectionMode="single"  editable="true" editMode="cell">
+            <p:dataTable 
+                id="dtclientes" 
+                var="cliente" 
+                value="#{clientesController.listadoInicial}" 
+                rowKey="#{cliente.id}" 
+                selectionMode="single"  
+                editable="true" 
+                editMode="cell"
+                rows="10"
+                paginator="true"
+                paginatorTemplate="
+                {CurrentPageReport} 
+                {FirstPageLink} 
+                {PreviousPageLink} 
+                {PageLinks} 
+                {NextPageLink} 
+                {LastPageLink} 
+                {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                rowsPerPageTemplate="5,10,15"
+                >
                 <f:facet name="header">
                     Listado de Clientes activos
                 </f:facet>

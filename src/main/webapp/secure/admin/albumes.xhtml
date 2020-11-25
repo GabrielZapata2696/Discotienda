@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Administrador - Gestion Albumes</title>
+
+        <style>
+            body{
+                background-image: url("../../resources/images/admin_background.jpg");                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;     
+            }
+            pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+
+            body .ui-button {
+                background-color: #086cde;
+                color: white;
+                border-color: white;
+                margin-left: 2%;
+                margin-top: 2%;
+            }
+
+            body .ui-button.ui-state-hover{
+
+                background-color: #1896f1;
+                border-color: white;
+                color: white;                
+            }
+
+            .tabla-contenedora{
+                padding-left: 20%;
+                padding-right: 20%;
+
+            }
+            body .ui-datatable thead th{
+                text-transform: uppercase;                
+                font-size: 120%;
+            }
+
+            body .ui-datatable .ui-datatable-data > tr > td{
+                font-size: 100%;                
+            }    
+            body .ui-datatable .ui-datatable-header, body .ui-datatable .ui-datatable-footer{
+                text-transform: uppercase;        
+            }
+            body .ui-selectonemenu {
+                width: 100%;
+            }
+
+            .columna-img {
+                width: 20%;
+            }
+
+            .columna-desc {
+                width: 90%;
+            }
+
+            .alignment {
+                vertical-align: top;                
+            }
+
+
+            body .ui-dialog .ui-dialog-content {
+
+                /*margin-right: 30%;
+                margin-left: 30%;  
+                margin-bottom: 5%;*/
+                margin-left: 10%;
+                margin-top: 5%;
+                margin-right: 10%;
+
+                padding-left: 10%;
+                padding-right: 10%;
+                border: 0;
+                background-color: transparent;
+            }
+
+            body .ui-dialog .ui-dialog-titlebar{
+                display: none !important;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0;
+                background-color: transparent;
+            }
+
+            .tabla{
+                width: 100%;
+            }
+
+        </style>
+
+
+    </h:head>
+    <h:body>
+        <h:form id="formAdmin">
+
+            <p:growl id="msgs" showDetail="true"/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p:menubar>
+                <p:menuitem value="  Inicio" actionListener="${albumesController.redireccion('administrador')}" icon="pi pi-home">                    
+                </p:menuitem> 
+
+                <p:submenu label="  Clientes" icon="pi pi-users">
+                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('clientes')}" icon="pi pi-cog"/>
+                </p:submenu>
+                <p:submenu label="  Artistas" icon="pi pi-sliders-h">
+                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('administrador')}" icon="pi pi-cog" />
+                </p:submenu>
+                <p:submenu label="  Albumes" icon="pi pi-sliders-h">
+                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('albumes')}" icon="pi pi-cog" />
+                </p:submenu>
+                <p:submenu label="  Canciones" icon="pi pi-sliders-h">
+                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('administrador')}" icon="pi pi-cog" />
+                </p:submenu>
+                <p:menuitem value="  Salir" actionListener="${v.cerrarSesion()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+            </p:menubar>
+
+            <br/>
+            <br/>
+
+
+            <h:panelGrid columns="3" cellpadding="10" style="padding-left: 40%; padding-top: -5%" > 
+                <p:outputLabel value="Filtro: " style="color: white; font-size: large; font-weight: bold"></p:outputLabel>
+                <p:selectOneMenu id="selectArtista" value="#{albumesController.nombreArtista}" >
+                    <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+                    <f:selectItems value="#{albumesController.listadoNombresArt}"  />               
+                </p:selectOneMenu>
+                <p:commandButton id="botonFiltro" actionListener="#{albumesController.onClickselector(event)}" ajax="true" update="panel-tabla" icon="pi pi-filter" >                        
+                </p:commandButton>
+            </h:panelGrid>          
+
+            <br/>
+
+            <h:panelGroup id="panel-tabla">
+                <p:dataTable 
+                    id="dtalbumes" 
+                    var="album" 
+                    value="#{albumesController.listadoAlbumes}"                   
+                    rendered="#{albumesController.visible}"   
+                    styleClass="tabla-contenedora"
+                    rows="10"
+                    paginator="true"
+                    paginatorTemplate="
+                    {CurrentPageReport} 
+                    {FirstPageLink} 
+                    {PreviousPageLink} 
+                    {PageLinks} 
+                    {NextPageLink} 
+                    {LastPageLink} 
+                    {RowsPerPageDropdown}"
+                    currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                    rowsPerPageTemplate="5,10,15"
+                    >
+                    <f:facet name="header">
+                        Listado de Albumes de #{albumesController.nombreArtista} 
+                    </f:facet>
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{album.nombre}" />                        
+                    </p:column>
+                    <p:column headerText="Año">
+                        <h:outputText value="#{album.anio}" />
+                    </p:column>
+
+                    <p:rowExpansion>                       
+                        <p:panelGrid  columns="3" columnClasses=" columna-img alignment, columna-desc alignment" style="">                            
+
+                            <p:graphicImage value="../../resources/images/login_icon.png" width="100%"/>                            
+
+                            <p:dataTable 
+                                id="dtAlbDesc" 
+                                var="album_desc" 
+                                value="#{albumesController.listadoAlbumes}"
+                                rowKey="#{album_desc.id_album}"
+                                rendered="#{albumesController.visible}" 
+                                selectionMode="single"  
+                                editable="true" 
+                                editMode="cell" 
+                                styleClass="tabla"
+                                rows="10"
+                                paginator="true"
+                                paginatorTemplate="
+                                {CurrentPageReport} 
+                                {FirstPageLink} 
+                                {PreviousPageLink} 
+                                {PageLinks} 
+                                {NextPageLink} 
+                                {LastPageLink} 
+                                {RowsPerPageDropdown}"
+                                currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                rowsPerPageTemplate="5,10,15"
+                                >   
+                                <f:facet name="header">
+                                    Descripcion                                
+                                </f:facet>
+                                <p:ajax event="cellEdit" listener="#{albumesController.onCellEdit}" update=":formAdmin:msgs"  />
+
+                                <p:column headerText="Nombre">
+                                    <p:cellEditor>                                
+                                        <f:facet name="output"><h:outputText value="#{album_desc.nombre}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="inputNombre" value="#{album_desc.nombre}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Precio">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="$ #{album.precio}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="inputPrecio" value="#{album.precio}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Año">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{album.anio}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="inputAnio" value="#{album.anio}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Duracion">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{album.duracion} mins." /></f:facet>
+                                        <f:facet name="input"><p:inputText id="inputLength" value="#{album.duracion}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Canciones">
+                                    <p:commandButton 
+                                        id="botonCanciones"                                         
+                                        actionListener="${albumesController.onClickCanciones(album.id_album)}" 
+                                        icon="pi pi-filter"
+                                        update=":formAdmin:paneldlg"
+                                        >                        
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable> 
+
+                        </p:panelGrid>
+
+                    </p:rowExpansion>
+                </p:dataTable>
+            </h:panelGroup>
+
+
+            <p:dialog widgetVar="dlg" modal="true" >
+                <br/>
+
+                <p:panel id="paneldlg">
+                    <p:dataTable 
+                        id="dtcanciones" 
+                        var="cancion" 
+                        value="#{albumesController.listadoCanciones}" 
+                        rowKey="#{cancion.id}"
+                        selectionMode="single" 
+                        editable="true" editMode="cell"
+                        rendered="#{not empty albumesController.listadoCanciones}" 
+                        rows="10"
+                        paginator="true"
+                        paginatorTemplate="
+                        {CurrentPageReport} 
+                        {FirstPageLink} 
+                        {PreviousPageLink} 
+                        {PageLinks} 
+                        {NextPageLink} 
+                        {LastPageLink} 
+                        {RowsPerPageDropdown}"
+                        currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                        rowsPerPageTemplate="5,10,15"
+                        >
+
+                        <f:facet name="header">
+                            Listado de Canciones
+                        </f:facet>
+
+                        <p:ajax event="cellEdit" listener="#{albumesController.onCellEdit}" update=":formAdmin:msgs"  />                       
+
+                        <p:column headerText="Nombre">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{cancion.nombre}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="inputNombre" value="#{cancion.nombre}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Duracion">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{cancion.duracion}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="inputDuracion" value="#{cancion.duracion}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Precio">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="$ #{cancion.precio}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="inputPrecio" value="#{cancion.precio}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>  
+
+                        <p:column headerText="Eliminar">
+                            <p:commandButton id="botonEliminar" actionListener="${albumesController.eliminar(cancion.id)}"  ajax="true" update=":formAdmin:paneldlg" icon="pi pi-times" >                        
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:commandButton 
+                        id="botonAtras"                                         
+                        onclick="PF('dlg').hide();"                  
+                        update=":formAdmin:paneldlg"
+                        value="Cerrar"
+                        >                        
+                    </p:commandButton>
+                </p:panel>
+
+            </p:dialog>
+
+
+        </h:form>            
+
+
+    </h:body>
+</html>
+

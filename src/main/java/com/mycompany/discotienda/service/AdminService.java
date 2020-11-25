@@ -6,6 +6,9 @@
 package com.mycompany.discotienda.service;
 
 import com.mycompany.discotienda.controller.SessionKey;
+import com.mycompany.discotienda.pojo.Album;
+import com.mycompany.discotienda.pojo.Artista;
+import com.mycompany.discotienda.pojo.Cancion;
 import com.mycompany.discotienda.pojo.Usuario;
 import com.mycompany.discotienda.repo.DAOAdmin;
 import java.util.List;
@@ -22,7 +25,6 @@ public class AdminService {
 
     public List<Usuario> BuscarClientes() {
         return new DAOAdmin().ConsultarClientes();
-
     }
 
     public boolean EditarUsuario(int id, String columna, Object newValue) {
@@ -55,5 +57,15 @@ public class AdminService {
     public boolean EliminarCliente(int idUsuario ){
         return new DAOAdmin().EliminarCliente(idUsuario);
     }
-
+    public List<Artista> BuscarArtistas(){
+        return new DAOAdmin().ConsultarArtistas();
+    }
+    public List<Album> BuscarAlbumes_XArtista(int idArtista){
+        return new DAOAdmin().ConsultarAlbumes_XArtista(idArtista);
+    }
+    public List<Cancion> BuscarCanciones_XAlbum(int idAlbum){
+        return new DAOAdmin().ConsultarCanciones_XAlbum(idAlbum);
+    }
+            
+    
 }
