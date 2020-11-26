@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Administrador - Geston Artistas</title>
+
+        <style>
+            body{
+                background-image: url("../../resources/images/admin_background.jpg");                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;     
+            }
+            pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+
+            .tabla-contenedora{
+                padding-left: 20%;
+                padding-right: 20%;
+
+            }
+            body .ui-datatable{
+                width: 100%;
+                padding-left: 20%;
+                padding-right: 20%;
+            }
+            body .ui-datatable thead th{
+                text-transform: uppercase;                
+                font-size: 120%;
+            }
+
+            body .ui-datatable .ui-datatable-data > tr > td{
+                font-size: 100%;                
+            }    
+            body .ui-datatable .ui-datatable-header, body .ui-datatable .ui-datatable-footer{
+                text-transform: uppercase;        
+            }
+            .columna-img {
+                width: 20%;
+            }
+
+            .columna-desc {
+                width: 90%;
+            }
+
+            .alignment {
+                vertical-align: top;                
+            }
+        </style>
+
+    </h:head>
+    <h:body>
+        <h:form id="formAdmin">
+
+            <p:growl id="msgs" showDetail="true"/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p:menubar>
+                <p:menuitem value="  Inicio" actionListener="${artistaController.redireccion('administrador')}" icon="pi pi-home">                    
+                </p:menuitem> 
+
+                <p:submenu label="  Clientes" icon="pi pi-users">
+                    <p:menuitem value="Gestion" actionListener="${artistaController.redireccion('clientes')}" icon="pi pi-cog"/>
+                </p:submenu>
+                <p:submenu label="  Artistas" icon="pi pi-sliders-h">
+                    <p:menuitem value="Gestion" actionListener="${artistaController.redireccion('artista')}" icon="pi pi-cog" />
+                </p:submenu>
+                <p:submenu label="  Albumes" icon="pi pi-sliders-h">
+                    <p:menuitem value="Gestion" actionListener="${artistaController.redireccion('albumes')}" icon="pi pi-cog" />
+                </p:submenu>
+
+                <p:menuitem value="  Salir" actionListener="${artistaController.cerrarSesion()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+            </p:menubar>
+
+
+            <br/>
+            <br/>
+
+
+            <h:panelGroup id="panel-tabla">
+                <p:dataTable
+                    id="dtartista" 
+                    var="artista" 
+                    value="#{artistaController.listadoArtistas}"
+                    rowKey="#{artista.id}"                    
+                    selectionMode="single"  
+                    editable="true" 
+                    editMode="cell" 
+                    styleClass="tabla"
+                    rows="10"
+                    paginator="true"
+                    paginatorTemplate="
+                    {CurrentPageReport} 
+                    {FirstPageLink} 
+                    {PreviousPageLink} 
+                    {PageLinks} 
+                    {NextPageLink} 
+                    {LastPageLink} 
+                    {RowsPerPageDropdown}"
+                    currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                    rowsPerPageTemplate="5,10,15"
+                    scrollable="true" scrollHeight="400" 
+                    >
+
+                    <f:facet name="header">
+                        Listado de Artistas
+                        <p:commandButton 
+                            id="btnNewArtista"     
+                            value="Nuevo"
+                            actionListener="${artistaController.onClickNewArtista()}" 
+                            icon="pi pi-plus"
+                            update=":formAdmin:panDlgNewArtista"
+                            >                        
+                        </p:commandButton>
+                    </f:facet>       
+                    <p:ajax event="cellEdit" listener="#{artistaController.onCellEditArtista}" update=":formAdmin:msgs"  />                               
+
+                    <p:column headerText="Imagen">
+                        <p:graphicImage value="${artista.url_img}" width="100%"/>
+                    </p:column> 
+                    <p:column headerText="Nombre" sortBy="#{artista.nombre}">                             
+                        <p:cellEditor>                                
+                            <f:facet name="output"><h:outputText value="#{artista.nombre}" /></f:facet>
+                            <f:facet name="input">
+                                <p:inputText 
+                                    id="inputNombre"                                                 
+                                    value="#{artista.nombre}" 
+                                    required="true"
+                                    label="Nombre"
+                                    style="width:96%"/>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column> 
+
+                    <p:column headerText="Descripcion">
+                        <p:cellEditor>                                
+                            <f:facet name="output"><h:outputText value="#{artista.descripcion}" /></f:facet>
+                            <f:facet name="input">
+                                <p:inputText 
+                                    id="inputDescripcion"                                                 
+                                    value="#{artista.descripcion}" 
+                                    required="true"
+                                    label="Descripcion"
+                                    style="width:96%"/>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column> 
+
+                    <p:column headerText="Eliminar">
+                        <p:commandButton 
+                            id="boton_ElimArt"                                         
+                            actionListener="${artistaController.onClickElimArt(artista.id)}" 
+                            icon="pi pi-times"
+                            update=":formAdmin"                            
+                            >                        
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+
+            <p:dialog widgetVar="dlg" modal="true" >
+                <br/>
+
+                <p:panel id="panDlgNewArtista">
+
+                    <p:panelGrid  columns="2" columnClasses=" columna-label alignment, columna-inputs alignment" style="">
+                        <f:facet name="header">
+                            Nuevo Artista
+                        </f:facet>
+
+                        <h:outputText value="Nombre: " /> 
+                        <p:inputText id="inputNAlbum"  value="#{artistaController.nombre}" style="width:96%"/>
+
+                        <h:outputText value="Descripcion: " /> 
+                        <p:inputTextarea id="inputNADesc" value="#{artistaController.descripcion}" style="width:96%"/>                        
+
+                        <h:outputText value="Imagen: " />
+                        <p:fileUpload listener="#{artistaController.listenerFile}" auto="true" mode="advanced" update="msgs" skinSimple="true"/>               
+
+
+                    </p:panelGrid>
+
+
+
+                    <p:panelGrid   columns="2" columnClasses=" columna-inputs alignment, columna-inputs alignment" style="">
+
+                        <p:commandButton 
+                            id="btnAtras"                                         
+                            onclick="PF('panDlgNewArtista').hide();"                                          
+                            value="Cerrar"
+                            ajax="true"
+                            >                        
+                        </p:commandButton>
+                        <p:commandButton 
+                            id="btnCrearArtista"                                                                                                       
+                            value="Crear"                            
+                            update=":formAdmin:msgs"                           
+                            actionListener="${artistaController.crearArtista}"
+                            >                        
+                        </p:commandButton>
+                    </p:panelGrid>                    
+
+                </p:panel>
+            </p:dialog>
+
+
+
+
+
+        </h:form>
+
+
+    </h:body>
+</html>
+

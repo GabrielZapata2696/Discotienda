@@ -33,6 +33,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import javax.validation.constraints.Size;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.fileupload.FileUploadHandler;
 import org.primefaces.event.CellEditEvent;
@@ -61,6 +62,7 @@ public class AlbumesController implements Serializable {
     /**
      * variables para la creacion de un album
      */
+    
     private String nombre;
     private double precio;
     private String duracion;
@@ -233,7 +235,7 @@ public class AlbumesController implements Serializable {
         
         Cancion newCancion = new Cancion();
         newCancion.setNombre(this.getNombreCancion());
-        newCancion.setPrecio(this.getPrecioCancion());
+       // newCancion.setPrecio(this.getPrecioCancion());
         newCancion.setDuracion(this.getDuracionCancion());
         newCancion.setId_album(this.getIdAlbum());
         newCancion.setId_artista(this.getId_Artista());       

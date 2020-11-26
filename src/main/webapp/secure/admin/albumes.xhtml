@@ -164,7 +164,7 @@
                     <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('clientes')}" icon="pi pi-cog"/>
                 </p:submenu>
                 <p:submenu label="  Artistas" icon="pi pi-sliders-h">
-                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('administrador')}" icon="pi pi-cog" />
+                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('artista')}" icon="pi pi-cog" />
                 </p:submenu>
                 <p:submenu label="  Albumes" icon="pi pi-sliders-h">
                     <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('albumes')}" icon="pi pi-cog" />
@@ -271,27 +271,63 @@
                                 <p:column headerText="Nombre" sortBy="#{album_desc.nombre}">
                                     <p:cellEditor>                                
                                         <f:facet name="output"><h:outputText value="#{album_desc.nombre}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="inputNombre" value="#{album_desc.nombre}" style="width:96%"/></f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText 
+                                                id="inputNombre"                                                 
+                                                value="#{album_desc.nombre}" 
+                                                required="true"
+                                                label="Nombre"
+                                                style="width:96%"/>
+                                        </f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Precio" sortBy="#{album_desc.precio}">
                                     <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="$ #{album.precio}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="inputPrecio" value="#{album.precio}" style="width:96%"/></f:facet>
+                                        <f:facet name="output">
+                                            <h:outputText value="$ #{album.precio}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText 
+                                                id="inputPrecio" 
+                                                value="#{album.precio}"
+                                                label="Precio"
+                                                style="width:96%"
+                                                required="true">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </p:inputText>                                           
+                                        </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                                 <p:column headerText="Año" sortBy="#{album_desc.anio}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{album.anio}" /></f:facet>
-                                        <f:facet name="input"><p:inputText id="inputAnio" value="#{album.anio}" style="width:96%"/></f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText 
+                                                id="inputAnio" 
+                                                value="#{album.anio}" 
+                                                label="Año"
+                                                required="true"
+                                                style="width:96%">
+                                                <f:validateDoubleRange minimum="1" maximum="2025" /> 
+                                            </p:inputText>
+                                        </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
                                 <p:column headerText="Duracion" sortBy="#{album_desc.duracion}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{album.duracion} mins." /></f:facet>
-                                        <f:facet name="input"><p:inputText id="inputLength" value="#{album.duracion}" style="width:96%"/></f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText 
+                                                id="inputLength" 
+                                                value="#{album.duracion}" 
+                                                label="Duracion"
+                                                required="true"
+                                                style="width:96%">
+                                                <f:validateDoubleRange minimum="1"  /> 
+                                            </p:inputText>
+                                        </f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
@@ -357,21 +393,46 @@
                         <p:column headerText="Nombre" sortBy="#{cancion.nombre}">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{cancion.nombre}" /></f:facet>
-                                <f:facet name="input"><p:inputText id="inputNombre" value="#{cancion.nombre}" style="width:96%"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputNombre" 
+                                        value="#{cancion.nombre}" 
+                                        required="true"
+                                        label="Nombre Cancion"
+                                        style="width:96%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
 
                         <p:column headerText="Duracion" sortBy="#{cancion.duracion}">
                             <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{cancion.duracion}" /></f:facet>
-                                <f:facet name="input"><p:inputText id="inputDuracion" value="#{cancion.duracion}" style="width:96%"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{cancion.duracion} mins." /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputDuracion" 
+                                        value="#{cancion.duracion}"
+                                        required="true"
+                                        label="Duracion Cancion"
+                                        validatorMessage="Formato no coincide"
+                                        style="width:96%">
+                                        <f:validateRegex pattern="^[0-9]+:[0-9]+$" />
+                                    </p:inputText>
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>
 
                         <p:column headerText="Precio" sortBy="#{cancion.precio}">
-                            <p:cellEditor>
+                            <p:cellEditor disabled="true">
                                 <f:facet name="output"><h:outputText value="$ #{cancion.precio}" /></f:facet>
-                                <f:facet name="input"><p:inputText id="inputPrecio" value="#{cancion.precio}" style="width:96%"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputPrecio" 
+                                        value="#{cancion.precio}" 
+                                        required="true"
+                                        label="Precio Cancion"
+                                        style="width:96%">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </p:inputText>
+                                </f:facet>
                             </p:cellEditor>
                         </p:column>  
 
@@ -416,7 +477,7 @@
                         <h:outputText value="Precio: " /> 
                         <p:inputNumber id="inputNAPrecio" value="#{albumesController.precio}" style="width:96%"/>                        
 
-                        <p:outputLabel value="Duracion:" />
+                        <p:outputLabel value="Duracion(minuto,segundos):" />
                         <p:inputNumber id="inputNADuracion" value="#{albumesController.duracion}"  />
 
                         <h:outputText value="Año: " /> 
@@ -462,9 +523,6 @@
 
                         <h:outputText value="Nombre: " /> 
                         <p:inputText id="inputNCancion"  value="#{albumesController.nombreCancion}" style="width:96%"/>
-
-                        <h:outputText value="Precio: " /> 
-                        <p:inputNumber id="inputNCPrecio" value="#{albumesController.precioCancion}" style="width:96%"/>                        
 
                         <p:outputLabel value="Duracion:" />
                         <p:inputNumber id="inputNCDuracion" value="#{albumesController.duracionCancion}"  />

@@ -14,6 +14,7 @@ public class Artista {
     private int id;
     private String nombre;
     private String url_img;
+    private String descripcion;
     private int estado;
 
     public Artista() {
@@ -43,6 +44,14 @@ public class Artista {
         this.url_img = url_img;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+        
     public int getEstado() {
         return estado;
     }

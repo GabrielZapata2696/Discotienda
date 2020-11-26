@@ -5,14 +5,17 @@
  */
 package com.mycompany.discotienda.pojo;
 
+import javax.validation.constraints.Size;
+
 /**
  *
  * @author SpacemanFromHell
  */
 public class Album {
     
-    private int id_album;
-    private String nombre;
+    
+    private int id_album;        
+    private String nombre;    
     private double precio;
     private int estado;
     private int id_artista;

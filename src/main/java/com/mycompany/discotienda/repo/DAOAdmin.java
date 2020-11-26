@@ -174,6 +174,7 @@ public class DAOAdmin {
                 artista.setId(rs.getInt("id"));
                 artista.setNombre(rs.getString("nombre"));
                 artista.setUrl_img(rs.getString("url_imagen"));
+                artista.setDescripcion(rs.getString("descripcion"));
                 artista.setEstado(rs.getInt("estado"));
                 listadoArtistas.add(artista);
             }
@@ -535,4 +536,5 @@ public class DAOAdmin {
         
     }
     
+      
 }
