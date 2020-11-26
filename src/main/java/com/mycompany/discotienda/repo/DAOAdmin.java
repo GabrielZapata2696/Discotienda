@@ -468,5 +468,71 @@ public class DAOAdmin {
         return resultado;
     }
 
+    public boolean CrearAlbum(Album newAlbum){
+        String _SQL = "SELECT * FROM tienda.f_crear_album( ?::text, ?, ?, ?, ?, ?::text);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setString(1, newAlbum.getNombre());
+            preparedStatement.setDouble(2, newAlbum.getPrecio());
+            preparedStatement.setInt(3, newAlbum.getId_artista());
+            preparedStatement.setInt(4, newAlbum.getAnio());
+            preparedStatement.setInt(5, newAlbum.getDuracion());
+            preparedStatement.setString(6, newAlbum.getUrl_img());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+        
+    }
+    
+    public boolean CrearCancion(Cancion newCancion){
+        String _SQL = "SELECT * FROM tienda.f_crear_cancion( ?::text, ?, ?, ?, ?::text);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setString(1, newCancion.getNombre());
+            preparedStatement.setDouble(2, newCancion.getPrecio());
+            preparedStatement.setInt(3, newCancion.getId_artista());
+            preparedStatement.setInt(4, newCancion.getId_album());      
+            preparedStatement.setString(5, newCancion.getDuracion());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+        
+    }
     
 }

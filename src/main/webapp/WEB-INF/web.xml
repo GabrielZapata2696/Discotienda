@@ -4,16 +4,30 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>nova-dark</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>primefaces.UPLOADER</param-name>
+        <param-value>auto</param-value>
+    </context-param>
+    
     
     <filter>
         <filter-name>restrict</filter-name>
         <filter-class>com.mycompany.discotienda.help.Filtro</filter-class>                
     </filter>
+    
     <filter-mapping>
         <filter-name>restrict</filter-name>
         <url-pattern>/faces/secure/*</url-pattern>  
         <url-pattern>/faces/secure/admin/*</url-pattern>                         
     </filter-mapping>
+   
+   
    
    
     
@@ -28,12 +42,7 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     
-    <context-param>
-        <param-name>primefaces.THEME</param-name>
-        <param-value>nova-dark</param-value>
-    </context-param>
-    
-    
+  
     <session-config>
         <session-timeout>
             30

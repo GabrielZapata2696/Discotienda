@@ -136,6 +136,13 @@
             .tabla{
                 width: 100%;
             }
+            .columna-label{
+                width: 20%;
+            }
+
+            .columna-inputs {
+                width: 80%;
+            }
 
         </style>
 
@@ -162,10 +169,8 @@
                 <p:submenu label="  Albumes" icon="pi pi-sliders-h">
                     <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('albumes')}" icon="pi pi-cog" />
                 </p:submenu>
-                <p:submenu label="  Canciones" icon="pi pi-sliders-h">
-                    <p:menuitem value="Gestion" actionListener="${albumesController.redireccion('administrador')}" icon="pi pi-cog" />
-                </p:submenu>
-                <p:menuitem value="  Salir" actionListener="${v.cerrarSesion()}" icon="pi pi-sign-out">               
+
+                <p:menuitem value="  Salir" actionListener="${albumesController.cerrarSesion()}" icon="pi pi-sign-out">               
                 </p:menuitem> 
             </p:menubar>
 
@@ -204,29 +209,38 @@
                     {RowsPerPageDropdown}"
                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                     rowsPerPageTemplate="5,10,15"
+                    scrollable="true" scrollHeight="400"
                     >
                     <f:facet name="header">
                         Listado de Albumes de #{albumesController.nombreArtista} 
+                        <p:commandButton 
+                            id="btnNewAlbum"     
+                            value="Nuevo"
+                            actionListener="${albumesController.onClickNewAlbum(album.id_artista)}" 
+                            icon="pi pi-plus"
+                            update=":formAdmin:panDlgNewAlbum"
+                            >                        
+                        </p:commandButton>
                     </f:facet>
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="Nombre">
+                    <p:column headerText="Nombre" sortBy="#{album.nombre}">
                         <h:outputText value="#{album.nombre}" />                        
-                    </p:column>
-                    <p:column headerText="Año">
+                    </p:column> 
+                    <p:column headerText="Año" sortBy="#{album.anio}">
                         <h:outputText value="#{album.anio}" />
                     </p:column>
 
                     <p:rowExpansion>                       
-                        <p:panelGrid  columns="3" columnClasses=" columna-img alignment, columna-desc alignment" style="">                            
+                        <p:panelGrid  columns="3" columnClasses="columna-img alignment, columna-desc alignment" style="">                            
 
-                            <p:graphicImage value="../../resources/images/login_icon.png" width="100%"/>                            
+                            <p:graphicImage value="${album.url_img}" width="100%"/>
 
                             <p:dataTable 
                                 id="dtAlbDesc" 
                                 var="album_desc" 
-                                value="#{albumesController.listadoAlbumes}"
+                                value="#{albumesController.retornarAlbum(album.id_album)}"
                                 rowKey="#{album_desc.id_album}"
                                 rendered="#{albumesController.visible}" 
                                 selectionMode="single"  
@@ -245,33 +259,36 @@
                                 {RowsPerPageDropdown}"
                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                                 rowsPerPageTemplate="5,10,15"
+                                scrollable="true" scrollHeight="150" 
+
                                 >   
                                 <f:facet name="header">
                                     Descripcion                                
                                 </f:facet>
-                                <p:ajax event="cellEdit" listener="#{albumesController.onCellEditAlbumes}" update=":formAdmin:msgs"  />
+                                <p:ajax event="cellEdit" listener="#{albumesController.onCellEditAlbumes}" update=":formAdmin:msgs"  />                               
 
-                                <p:column headerText="Nombre">
+
+                                <p:column headerText="Nombre" sortBy="#{album_desc.nombre}">
                                     <p:cellEditor>                                
                                         <f:facet name="output"><h:outputText value="#{album_desc.nombre}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="inputNombre" value="#{album_desc.nombre}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="Precio">
+                                <p:column headerText="Precio" sortBy="#{album_desc.precio}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="$ #{album.precio}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="inputPrecio" value="#{album.precio}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Año">
+                                <p:column headerText="Año" sortBy="#{album_desc.anio}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{album.anio}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="inputAnio" value="#{album.anio}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column headerText="Duracion">
+                                <p:column headerText="Duracion" sortBy="#{album_desc.duracion}">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{album.duracion} mins." /></f:facet>
                                         <f:facet name="input"><p:inputText id="inputLength" value="#{album.duracion}" style="width:96%"/></f:facet>
@@ -281,13 +298,13 @@
                                 <p:column headerText="Canciones">
                                     <p:commandButton 
                                         id="botonCanciones"                                         
-                                        actionListener="${albumesController.onClickCanciones(album.id_album)}" 
+                                        actionListener="${albumesController.onClickCanciones(album.id_album )}" 
                                         icon="pi pi-bell"
                                         update=":formAdmin:paneldlg"
                                         >                        
                                     </p:commandButton>
                                 </p:column>
-                                
+
                                 <p:column headerText="Eliminar">
                                     <p:commandButton 
                                         id="boton_ElimAlbum"                                         
@@ -300,15 +317,12 @@
                             </p:dataTable> 
 
                         </p:panelGrid>
-
                     </p:rowExpansion>
                 </p:dataTable>
             </h:panelGroup>
 
-
             <p:dialog widgetVar="dlg" modal="true" >
                 <br/>
-
                 <p:panel id="paneldlg">
                     <p:dataTable 
                         id="dtcanciones" 
@@ -330,29 +344,31 @@
                         {RowsPerPageDropdown}"
                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                         rowsPerPageTemplate="5,10,15"
+                        scrollable="true" scrollHeight="150" 
+
                         >
 
                         <f:facet name="header">
-                            Listado de Canciones
+                            Listado de Canciones                            
                         </f:facet>
 
                         <p:ajax event="cellEdit" listener="#{albumesController.onCellEditCancion}" update=":formAdmin:msgs"  />                       
 
-                        <p:column headerText="Nombre">
+                        <p:column headerText="Nombre" sortBy="#{cancion.nombre}">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{cancion.nombre}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="inputNombre" value="#{cancion.nombre}" style="width:96%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
 
-                        <p:column headerText="Duracion">
+                        <p:column headerText="Duracion" sortBy="#{cancion.duracion}">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{cancion.duracion}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="inputDuracion" value="#{cancion.duracion}" style="width:96%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
 
-                        <p:column headerText="Precio">
+                        <p:column headerText="Precio" sortBy="#{cancion.precio}">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="$ #{cancion.precio}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="inputPrecio" value="#{cancion.precio}" style="width:96%"/></f:facet>
@@ -372,10 +388,109 @@
                         value="Cerrar"
                         >                        
                     </p:commandButton>
+                    <p:commandButton 
+                        id="btnNewCancion"     
+                        value="Nuevo"
+                        actionListener="${albumesController.onClickNewCancion(album.id_artista)}" 
+                        icon="pi pi-plus"
+                        update=":formAdmin:msgs"
+                        >                        
+                    </p:commandButton>
                 </p:panel>
 
             </p:dialog>
 
+            <p:dialog widgetVar="dlgNewAlbum" modal="true" >
+                <br/>
+
+                <p:panel id="panDlgNewAlbum">
+
+                    <p:panelGrid  columns="2" columnClasses=" columna-label alignment, columna-inputs alignment" style="">
+                        <f:facet name="header">
+                            Nuevo Album
+                        </f:facet>
+
+                        <h:outputText value="Nombre: " /> 
+                        <p:inputText id="inputNAlbum"  value="#{albumesController.nombre}" style="width:96%"/>
+
+                        <h:outputText value="Precio: " /> 
+                        <p:inputNumber id="inputNAPrecio" value="#{albumesController.precio}" style="width:96%"/>                        
+
+                        <p:outputLabel value="Duracion:" />
+                        <p:inputNumber id="inputNADuracion" value="#{albumesController.duracion}"  />
+
+                        <h:outputText value="Año: " /> 
+                        <p:inputText id="inputNAanio" value="#{albumesController.anio}" style="width:96%"/>
+
+                        <h:outputText value="Imagen Portada: " />
+                        <p:fileUpload listener="#{albumesController.listenerFile}" auto="true" mode="advanced" update="msgs" skinSimple="true"/>               
+
+
+                    </p:panelGrid>
+
+
+
+                    <p:panelGrid   columns="2" columnClasses=" columna-inputs alignment, columna-inputs alignment" style="">
+
+                        <p:commandButton 
+                            id="btnAtras"                                         
+                            onclick="PF('panDlgNewAlbum').hide();"                                          
+                            value="Cerrar"
+                            ajax="true"
+                            >                        
+                        </p:commandButton>
+                        <p:commandButton 
+                            id="btnCrearAlbum"                                                                                                       
+                            value="Crear"                            
+                            update=":formAdmin:msgs"                           
+                            actionListener="${albumesController.crearAlbum}"
+                            >                        
+                        </p:commandButton>
+                    </p:panelGrid>                    
+
+                </p:panel>
+
+            </p:dialog>
+
+            <p:dialog widgetVar="dlgNewCanciones" modal="true" >
+                <br/>
+                <p:panel id="pnldlgCan">
+                    <p:panelGrid  columns="2" columnClasses=" columna-label alignment, columna-inputs alignment" style="">
+                        <f:facet name="header">
+                            Nueva Cancion
+                        </f:facet>
+
+                        <h:outputText value="Nombre: " /> 
+                        <p:inputText id="inputNCancion"  value="#{albumesController.nombreCancion}" style="width:96%"/>
+
+                        <h:outputText value="Precio: " /> 
+                        <p:inputNumber id="inputNCPrecio" value="#{albumesController.precioCancion}" style="width:96%"/>                        
+
+                        <p:outputLabel value="Duracion:" />
+                        <p:inputNumber id="inputNCDuracion" value="#{albumesController.duracionCancion}"  />
+
+                    </p:panelGrid>
+
+                    <p:panelGrid   columns="2" columnClasses=" columna-inputs alignment, columna-inputs alignment" style="">
+
+                        <p:commandButton 
+                            id="btnCAtras"                                         
+                            onclick="PF('pnldlgCan').hide();"                                          
+                            value="Cerrar"
+                            ajax="true"
+                            >                        
+                        </p:commandButton>
+                        <p:commandButton 
+                            id="btnCrearCan"                                                                                                       
+                            value="Crear"                            
+                            update=":formAdmin:msgs"                           
+                            actionListener="${albumesController.crearCancion}"
+                            >                        
+                        </p:commandButton>
+                    </p:panelGrid>          
+
+                </p:panel>
+            </p:dialog>
 
         </h:form>            
 

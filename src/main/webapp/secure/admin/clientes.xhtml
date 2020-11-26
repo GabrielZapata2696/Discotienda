@@ -118,9 +118,6 @@
                 <p:submenu label="  Albumes" icon="pi pi-sliders-h">
                     <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('albumes')}" icon="pi pi-cog" />
                 </p:submenu>
-                <p:submenu label="  Canciones" icon="pi pi-sliders-h">
-                    <p:menuitem value="Gestion" actionListener="${clientesController.redireccion('administrador')}" icon="pi pi-cog" />
-                </p:submenu>
                 <p:menuitem value="  Salir" actionListener="${clientesController.cerrarSesion()}" icon="pi pi-sign-out">               
                 </p:menuitem> 
             </p:menubar>
@@ -147,7 +144,9 @@
                 {RowsPerPageDropdown}"
                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                 rowsPerPageTemplate="5,10,15"
+                scrollable="true" scrollHeight="150"
                 >
+                
                 <f:facet name="header">
                     Listado de Clientes activos
                 </f:facet>
@@ -155,28 +154,28 @@
                 <p:ajax event="cellEdit" listener="#{clientesController.onCellEdit}" update=":formAdmin:msgs"  />
 
 
-                <p:column headerText="Documento">
+                <p:column headerText="Documento" sortBy="#{cliente.documento}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{cliente.documento}" /></f:facet>
                         <f:facet name="input"><p:inputText id="inputDcto" value="#{cliente.documento}" style="width:96%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Nombre">
+                <p:column headerText="Nombre" sortBy="#{cliente.nombre}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{cliente.nombre}" /></f:facet>
                         <f:facet name="input"><p:inputText id="inputNombre" value="#{cliente.nombre}" style="width:96%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Apellido">
+                <p:column headerText="Apellido" sortBy="#{cliente.apellido}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{cliente.apellido}" /></f:facet>
                         <f:facet name="input"><p:inputText id="inputApellido" value="#{cliente.apellido}" style="width:96%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Email">
+                <p:column headerText="Email" sortBy="#{cliente.email}">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{cliente.email}" /></f:facet>
                         <f:facet name="input"><p:inputText id="inputEmail" value="#{cliente.email}" style="width:96%"/></f:facet>

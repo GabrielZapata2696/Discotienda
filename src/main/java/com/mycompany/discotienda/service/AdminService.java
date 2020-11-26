@@ -134,5 +134,12 @@ public class AdminService {
         return val;
     }
     
+    public boolean CrearAlbum(Album newAlbum){
+        return new DAOAdmin().CrearAlbum(newAlbum);                
+    }
+    
+    public boolean CrearCancion(Cancion newCancion){
+        return new DAOAdmin().CrearCancion(newCancion);                
+    }
     
 }
