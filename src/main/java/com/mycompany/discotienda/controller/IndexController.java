@@ -41,5 +41,9 @@ public class IndexController implements Serializable {
     public String login() {
         return "login";
     }
+    
+    public String crear() {
+        return "crearcuenta";
+    }
 
 }

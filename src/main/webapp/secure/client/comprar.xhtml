@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cliente - Comprar Musica</title>
+        <style>
+            body{
+                background-image: url('../../resources/images/cliente_background.jpg');                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;            
+            }
+            .pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+
+            body .ui-button {
+                background-color: #086cde;
+                color: white;
+                border-color: white;
+                margin-left: 2%;
+                margin-top: 2%;
+            }
+
+            body .ui-button.ui-state-hover{
+
+                background-color: #1896f1;
+                border-color: white;
+                color: white;                
+            }
+
+            .tabla-contenedora{
+                padding-left: 20%;
+                padding-right: 20%;
+
+            }
+            body .ui-datatable thead th{
+                text-transform: uppercase;                
+                font-size: 120%;
+            }
+
+            body .ui-datatable .ui-datatable-data > tr > td{
+                font-size: 100%;                
+            }    
+            body .ui-datatable .ui-datatable-header, body .ui-datatable .ui-datatable-footer{
+                text-transform: uppercase;        
+            }
+            body .ui-selectonemenu {
+                width: 100%;
+            }
+
+            .columna-img {
+                width: 20%;
+            }
+
+            .columna-desc {
+                width: 90%;
+            }
+
+            .alignment {
+                vertical-align: top;                
+            }
+
+
+            body .ui-dialog .ui-dialog-content {
+
+                /*margin-right: 30%;
+                margin-left: 30%;  
+                margin-bottom: 5%;*/
+                margin-left: 10%;
+                margin-top: 5%;
+                margin-right: 10%;
+
+                padding-left: 10%;
+                padding-right: 10%;
+                border: 0;
+                background-color: transparent;
+            }
+
+            body .ui-dialog .ui-dialog-titlebar{
+                display: none !important;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0;
+                background-color: transparent;
+            }
+
+            .tabla{
+                width: 100%;
+            }
+            .columna-label{
+                width: 20%;
+            }
+
+            .columna-inputs {
+                width: 80%;
+            }
+
+
+        </style>
+
+    </h:head>
+    <h:body>
+
+        <h:form id="formCliente">   
+            <p:growl id="msgs" showDetail="true"  life="5000"/> 
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p:menubar>
+                <p:menuitem value="  Inicio" actionListener="${clienteController.redireccion('cliente')}" icon="pi pi-home">                    
+                </p:menuitem> 
+                <p:submenu label="  Musica" icon="pi pi-users">
+                    <p:menuitem value="Comprar" actionListener="${clienteController.redireccion('comprar')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>
+                <p:submenu label="  Carrito" icon="pi pi-users">
+                    <p:menuitem value="Ver" actionListener="${clienteController.redireccion('carrito')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>
+                <p:menuitem value="  Salir" actionListener="${clienteController.cerrarSesion()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+            </p:menubar>
+
+            <br/>
+            <br/>
+
+            <h:panelGrid columns="3" cellpadding="10" style="padding-left: 40%; padding-top: -5%" > 
+                <p:outputLabel value="Filtro: " style="color: white; font-size: large; font-weight: bold"></p:outputLabel>
+                <p:selectOneMenu id="selectArtista" value="#{comprarController.nombreArtista}" >
+                    <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+                    <f:selectItems value="#{comprarController.listadoNombresArt}"  />               
+                </p:selectOneMenu>
+                <p:commandButton id="botonFiltro" actionListener="#{comprarController.onClickSelector(event)}" ajax="true" update=":formCliente:panel-tabla" icon="pi pi-filter" >                        
+                </p:commandButton>
+            </h:panelGrid>          
+
+            <br/>
+
+            <h:panelGroup id="panel-tabla">                
+                <p:dataTable
+                    id="dtalbumes" 
+                    var="album" 
+                    value="#{comprarController.listadoAlbumes}"                   
+                    rendered="#{comprarController.visible}"   
+                    styleClass="tabla-contenedora"
+                    rows="10"
+                    paginator="true"
+                    paginatorTemplate="
+                    {CurrentPageReport} 
+                    {FirstPageLink} 
+                    {PreviousPageLink} 
+                    {PageLinks} 
+                    {NextPageLink} 
+                    {LastPageLink} 
+                    {RowsPerPageDropdown}"
+                    currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                    rowsPerPageTemplate="5,10,15"
+                    scrollable="true" scrollHeight="400"
+                    >
+
+                    <f:facet name="header">
+                        Listado de Albumes de #{comprarController.nombreArtista}                         
+                    </f:facet>
+
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="Nombre" sortBy="#{album.nombre}">
+                        <h:outputText value="#{album.nombre}" />                        
+                    </p:column> 
+                    <p:column headerText="Año" sortBy="#{album.anio}">
+                        <h:outputText value="#{album.anio}" />
+                    </p:column>
+
+                    <p:rowExpansion>                      
+                        <p:panelGrid  columns="3" columnClasses="columna-img alignment, columna-desc alignment" style="">
+                            <p:graphicImage value="${album.url_img}" width="100%"/>
+                            <p:dataTable
+                                id="dtAlbDesc" 
+                                var="album_desc" 
+                                value="#{comprarController.retornarAlbum(album.id_album)}"
+                                rowKey="#{album_desc.id_album}"
+                                rendered="#{comprarController.visible}"                                 
+                                styleClass="tabla"
+                                rows="10"
+                                paginator="true"
+                                paginatorTemplate="
+                                {CurrentPageReport} 
+                                {FirstPageLink} 
+                                {PreviousPageLink} 
+                                {PageLinks} 
+                                {NextPageLink} 
+                                {LastPageLink} 
+                                {RowsPerPageDropdown}"
+                                currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                rowsPerPageTemplate="5,10,15"
+                                scrollable="true" scrollHeight="150"
+                                >
+                                <f:facet name="header">
+                                    Descripcion                                
+                                </f:facet>
+
+
+                                <p:column headerText="Nombre" sortBy="#{album_desc.nombre}">                                                                
+                                    <h:outputText value="#{album_desc.nombre}" />                                                                          
+                                </p:column>
+                                <p:column headerText="Precio" sortBy="#{album_desc.precio}">
+                                    <h:outputText value="$ #{album.precio}" />                                    
+                                </p:column>
+
+                                <p:column headerText="Año" sortBy="#{album_desc.anio}">
+                                    <h:outputText value="#{album.anio}" />                                       
+                                </p:column>
+
+                                <p:column headerText="Duracion" sortBy="#{album_desc.duracion}">
+                                    <h:outputText value="#{album.duracion} mins." />                                       
+                                </p:column>
+
+                                <p:column headerText="Canciones">
+                                    <p:commandButton 
+                                        id="botonCanciones"                                         
+                                        actionListener="${comprarController.onClickCanciones(album.id_album )}" 
+                                        icon="pi pi-bell"
+                                        update=":formCliente:paneldlg"
+                                        >                        
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="Añadir">
+                                    <p:commandButton 
+                                        id="boton_AddAlbum"                                         
+                                        actionListener="${comprarController.onClickAddAlbum(album.id_album)}" 
+                                        icon="pi pi-times"
+                                        update=":formCliente:msgs"
+                                        >                        
+                                    </p:commandButton>
+                                </p:column>
+
+
+                            </p:dataTable>
+                        </p:panelGrid>                            
+
+                    </p:rowExpansion> 
+                </p:dataTable>
+            </h:panelGroup>
+
+            <p:dialog widgetVar="dlg" modal="true" >
+                <br/>
+                <p:panel id="paneldlg">
+                    <p:dataTable
+                        id="dtcanciones" 
+                        var="cancion" 
+                        value="#{comprarController.listadoCanciones}" 
+                        rowKey="#{cancion.id}"                        
+                        rendered="#{not empty comprarController.listadoCanciones}" 
+                        rows="10"
+                        paginator="true"
+                        paginatorTemplate="
+                        {CurrentPageReport} 
+                        {FirstPageLink} 
+                        {PreviousPageLink} 
+                        {PageLinks} 
+                        {NextPageLink} 
+                        {LastPageLink} 
+                        {RowsPerPageDropdown}"
+                        currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                        rowsPerPageTemplate="5,10,15"
+                        scrollable="true" scrollHeight="150" 
+                        >
+                                                
+                        <f:facet name="header">
+                            Listado de Canciones                            
+                        </f:facet>
+
+                        <p:column headerText="Nombre" sortBy="#{cancion.nombre}">
+                            <p:cellEditor disabled="true">
+                                <f:facet name="output"><h:outputText value="#{cancion.nombre}" /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputNombre" 
+                                        value="#{cancion.nombre}" 
+                                        required="true"
+                                        label="Nombre Cancion"
+                                        style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Duracion" sortBy="#{cancion.duracion}">
+                            <p:cellEditor disabled="true">
+                                <f:facet name="output"><h:outputText value="#{cancion.duracion} mins." /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputDuracion" 
+                                        value="#{cancion.duracion}"
+                                        required="true"
+                                        label="Duracion Cancion"
+                                        validatorMessage="Formato no coincide"
+                                        style="width:96%">
+                                        <f:validateRegex pattern="^[0-9]+:[0-9]+$" />
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Precio" sortBy="#{cancion.precio}">
+                            <p:cellEditor disabled="true">
+                                <f:facet name="output"><h:outputText value="$ #{cancion.precio}" /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText 
+                                        id="inputPrecio" 
+                                        value="#{cancion.precio}" 
+                                        required="true"
+                                        label="Precio Cancion"
+                                        style="width:96%">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>  
+
+                        <p:column headerText="Agregar">
+                            <p:commandButton id="botonAddCan" actionListener="${comprarController.agregarCancion(cancion.id)}" ajax="true" update=":formCliente:msgs" icon="pi pi-times" >                        
+                            </p:commandButton>
+                        </p:column>                        
+                        
+                    </p:dataTable>
+                    <p:commandButton 
+                        id="botonAtras"                                         
+                        onclick="PF('dlg').hide();"                  
+                        update=":formCliente:paneldlg"
+                        value="Cerrar"
+                        >                        
+                    </p:commandButton>
+                </p:panel>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

@@ -114,8 +114,7 @@ public class AlbumesController implements Serializable {
 
     public void onClickCanciones(int id_album) {
         this.setListadoCanciones(new AdminService().BuscarCanciones_XAlbum(id_album));
-        this.listadoCanciones = this.getListadoCanciones();
-                
+        this.listadoCanciones = this.getListadoCanciones();                
         this.idAlbum = id_album;
         this.setIdAlbum(this.idAlbum);
         PrimeFaces current = PrimeFaces.current();

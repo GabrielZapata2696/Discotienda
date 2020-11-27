@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cliente - Carrito</title>
+
+        <style>
+            body{
+                background-image: url('../../resources/images/cliente_background.jpg');                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;            
+            }
+            .pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+
+            body .ui-button {
+                background-color: #086cde;
+                color: white;
+                border-color: white;
+                margin-left: 2%;
+                margin-top: 2%;
+            }
+
+            body .ui-button.ui-state-hover{
+
+                background-color: #1896f1;
+                border-color: white;
+                color: white;                
+            }
+
+            .tabla-contenedora{
+                padding-left: 20%;
+                padding-right: 20%;
+
+            }
+            body .ui-datatable thead th{
+                text-transform: uppercase;                
+                font-size: 120%;
+            }
+
+            body .ui-datatable .ui-datatable-data > tr > td{
+                font-size: 100%;                
+            }    
+            body .ui-datatable .ui-datatable-header, body .ui-datatable .ui-datatable-footer{
+                text-transform: uppercase;        
+            }
+            body .ui-selectonemenu {
+                width: 100%;
+            }
+
+            .columna-img {
+                width: 20%;
+            }
+
+            .columna-desc {
+                width: 90%;
+            }
+
+            .alignment {
+                vertical-align: top;                
+            }
+
+
+            body .ui-dialog .ui-dialog-content {
+
+                /*margin-right: 30%;
+                margin-left: 30%;  
+                margin-bottom: 5%;*/
+                margin-left: 10%;
+                margin-top: 5%;
+                margin-right: 10%;
+
+                padding-left: 10%;
+                padding-right: 10%;
+                border: 0;
+                background-color: transparent;
+            }
+
+            body .ui-dialog .ui-dialog-titlebar{
+                display: none !important;
+            }
+            body .ui-panel .ui-panel-content{
+                border: 0;
+                background-color: transparent;
+            }
+
+            .tabla{
+                width: 100%;
+            }
+            .columna-label{
+                width: 20%;
+            }
+
+            .columna-inputs {
+                width: 80%;
+            }
+            body .ui-datatable {
+                padding-left: 20%;
+                padding-right: 20%;
+                height: 80%;
+            }
+
+
+
+        </style>
+
+    </h:head>
+    <h:body>
+
+        <h:form id="formCliente">
+            <p:growl id="msgs" showDetail="true"  life="5000"/> 
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p:menubar>
+                <p:menuitem value="  Inicio" actionListener="${carritoController.redireccion('cliente')}" icon="pi pi-home">                    
+                </p:menuitem> 
+                <p:submenu label="  Musica" icon="pi pi-users">
+                    <p:menuitem value="Comprar" actionListener="${carritoController.redireccion('comprar')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>
+                <p:submenu label="  Carrito" icon="pi pi-users">
+                    <p:menuitem value="Ver" actionListener="${carritoController.redireccion('carrito')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>
+                <p:menuitem value="  Salir" actionListener="${carritoController.cerrarSesion()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+            </p:menubar>
+
+            <br/>
+            <br/>
+
+            <p:dataTable 
+                id="dtpedido" 
+                var="pedido" 
+                value="#{carritoController.facturaFin}" 
+                rowKey="#{pedido.id}"     
+                rows="10"
+                paginator="true"
+                paginatorTemplate="
+                {CurrentPageReport} 
+                {FirstPageLink} 
+                {PreviousPageLink} 
+                {PageLinks} 
+                {NextPageLink} 
+                {LastPageLink} 
+                {RowsPerPageDropdown}"
+                currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                rowsPerPageTemplate="5,10,15"
+                scrollable="true" scrollHeight="450"                
+                >
+
+                <f:facet name="header">
+                    Mi Carrito
+                </f:facet>
+
+                <p:column headerText="Imagen">
+                    <p:graphicImage value="${pedido.urlImg}" width="50%"/>
+                </p:column>
+
+                <p:column headerText="Nombre" sortBy="#{pedido.nombre}">                   
+                    <h:outputText value="#{pedido.nombre}" />
+                </p:column>
+
+                <p:column headerText="Artista" sortBy="#{pedido.artista}">                   
+                    <h:outputText value="#{pedido.artista}" />
+                </p:column>
+                
+                <p:column headerText="Articulo" sortBy="#{pedido.tipo}">                   
+                    <h:outputText value="#{pedido.tipo}" />
+                </p:column>
+
+                <p:column headerText="Precio" sortBy="#{pedido.precio}">
+                    <h:outputText value="$#{pedido.precio}" />
+                </p:column>
+
+                <p:column headerText="Retirar">
+                    <p:commandButton id="botonRetirar" actionListener="${carritoController.Retirar(pedido.id)}" ajax="true" update=":formCliente" icon="pi pi-times" >                        
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:commandButton id="botonComprar" value="Comprar" actionListener="${carritoController.Comprar()}"  ajax="true" update=":formCliente">                        
+            </p:commandButton>
+
+        </h:form>
+    </h:body>
+</html>
+

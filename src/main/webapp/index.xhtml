@@ -9,6 +9,14 @@
     <h:head>
         <title>Proyecto Discotienda</title>
         <style>
+            
+            body{
+                background-image: url('resources/images/index_background.jpg');                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;            
+            }
+            
             body .ui-tabmenu .ui-tabmenu-nav {
                 background-color: #333;
                 margin-left: 10%;
@@ -27,6 +35,9 @@
 
             <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="  Inicio" icon="pi pi-home">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="  Crear Cuenta" outcome="#{indexController.crear()}" icon="pi pi-user-plus">
                     <f:param name="i" value="0" />
                 </p:menuitem>
                 <p:menuitem value="  Iniciar Sesion" outcome="#{indexController.login()}" icon="pi pi-user">

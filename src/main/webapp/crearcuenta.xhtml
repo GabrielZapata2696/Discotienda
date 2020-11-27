@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Crear Cuenta</title>
+        <style>
+
+            body{
+                background-image: url('resources/images/index_background.jpg');                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;            
+            }
+
+            body .ui-tabmenu .ui-tabmenu-nav {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+            }
+            body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem{
+                background-color: transparent;
+            }
+            body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem.ui-state-hover a{
+                background-color: dimgrey;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+
+            <p:growl id="growl" showDetail="true"  life="5000"/> 
+            <br/>
+            <br/>  
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="  Inicio" icon="pi pi-home">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="  Crear Cuenta" outcome="#{crearController.crear()}" icon="pi pi-user-plus">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="  Iniciar Sesion" outcome="#{crearController.login()}" icon="pi pi-user">
+                    <f:param name="i" value="1" />
+                </p:menuitem> 
+
+            </p:tabMenu>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <p:panel header="Registrarse">
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <h:panelGrid id="panelregistro" columns="3" cellpadding ="5">
+
+                    <h:outputLabel for="nombre" value="Nombre" style="font-weight: bold" />
+                    <p:inputText id="nombre" value="#{crearController.nombre}" required="true" label="Nombre" />
+                    <p:message for="nombre"/>  
+
+                    <h:outputLabel for="apellido" value="Apellido" style="font-weight: bold" />
+                    <p:inputText id="apellido" value="#{crearController.apellido}" required="true" label="Apellido" />
+                    <p:message for="apellido"/>  
+
+                    <h:outputLabel for="dcto" value="Documento" style="font-weight: bold" />
+                    <p:inputNumber id="dcto" value="#{crearController.documento}" required="true" label="Documento" />
+                    <p:message for="dcto"/>  
+
+                    <h:outputLabel for="correo" value="Correo" style="font-weight: bold" />
+                    <p:inputText id="correo" value="#{crearController.correo}"  required="true" label="Correo" />
+                    <p:message for="correo"/>  
+
+                    <h:outputLabel for="clave" value="Clave" style="font-weight: bold" />
+                    <p:password id="clave" value="#{crearController.clave}"  required="true" label="Clave" />
+                    <p:message for="clave"/> 
+
+                    <p:commandButton 
+                        value="Registrarse"  
+                        update="panelregistro" 
+                        icon="pi pi-check" 
+                        validateClient="true" 
+                        style="margin-right: 10px"
+                        actionListener="#{crearController.RegistrarNuevo}"
+                        />
+                </h:panelGrid>
+
+            </p:panel>
+
+
+
+
+
+        </h:form>
+    </h:body>
+</html>
+

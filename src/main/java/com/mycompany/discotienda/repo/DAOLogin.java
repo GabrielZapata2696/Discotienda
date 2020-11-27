@@ -5,6 +5,7 @@
  */
 package com.mycompany.discotienda.repo;
 
+import com.mycompany.discotienda.pojo.Compra;
 import com.mycompany.discotienda.pojo.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.mycompany.discotienda.repo.ConexionBD;
+import java.sql.Date;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -63,5 +66,39 @@ public class DAOLogin {
         return user;
     }
 
+     
+    public boolean CrearUsuario(Usuario user) {
+        String _SQL = "SELECT * FROM tienda.f_crear_usuario( ?::text, ?::text, ?::text, ?::text, ?::text);";
+        ConexionBD bd = new ConexionBD();
+        Connection con = bd.getConnection();
+        java.sql.Date sqlStartDate = Date.valueOf(LocalDate.now());
+        boolean resultado = false;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(_SQL);
+            preparedStatement.setString(1, user.getNombre());
+            preparedStatement.setString(2, user.getApellido());
+            preparedStatement.setString(3, user.getDocumento());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPassword());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.getResultSet();
+            resultado = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            resultado = false;
+        } catch (NullPointerException nullex) {
+            nullex.printStackTrace();
+            resultado = false;
+        } finally {
+            try {
+                con.close();
+                _SQL = "";
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        return resultado;
+
+    }
    
 }

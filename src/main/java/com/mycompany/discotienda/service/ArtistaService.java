@@ -57,4 +57,7 @@ public class ArtistaService {
         return new DAOArtista().CrearArtista(newArtista);
     }
     
+     public String ObtenerNombreArtista(int idArtista){
+         return (this.BuscarArtistaXId(idArtista)).getNombre();         
+     }
 }

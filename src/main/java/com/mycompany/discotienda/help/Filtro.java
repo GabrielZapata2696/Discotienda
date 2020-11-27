@@ -61,7 +61,7 @@ public class Filtro implements Filter {
                         chain.doFilter(request, response);
                     } else {
                         System.out.println("No tiene permisos para acceder a esta pagina");
-                        res.sendRedirect("../login.xhtml");
+                        res.sendRedirect("../401.xhtml");
                     }
 
                 } else {

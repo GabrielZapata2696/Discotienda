@@ -437,7 +437,7 @@
                         </p:column>  
 
                         <p:column headerText="Eliminar">
-                            <p:commandButton id="botonEliminar" actionListener="${albumesController.eliminarCancion(cancion.id)}" oncomplete="PF('dlg').hide();" ajax="true" update=":formAdmin:msgs" icon="pi pi-times" >                        
+                            <p:commandButton id="botonEliminar" actionListener="${albumesController.eliminarCancion(cancion.id)}" oncomplete="PF('dlg').hide();" ajax="true" update=":formAdmin:dtcanciones" icon="pi pi-times" >                        
                             </p:commandButton>
                         </p:column>
 

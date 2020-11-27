@@ -5,15 +5,92 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Discotienda - Cliente</title>
+
+        <style>
+            body{
+                background-image: url('../../resources/images/cliente_background.jpg');                
+                background-size: cover;
+                background-repeat: no-repeat; 
+                background-attachment:fixed;            
+            }
+            .pi{
+                color: wheat;
+            }
+
+            body .ui-menu {
+                background-color: #333;
+                margin-left: 10%;
+                margin-right: 10%;
+                color: wheat;
+                border:  1px solid wheat;
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menu-child {
+                background-color: #333;                 
+            }
+            body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow{
+                color: wheat;
+                border-color: wheat
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-menuitem-text{
+                color: wheat;
+                border-color: wheat
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover{
+                background-color: #606060;                
+                border-color: wheat                    
+            }
+
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text{
+                color: wheat;
+            }
+
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link.ui-state-hover .ui-icon{
+                color: wheat;
+            }
+            body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon{
+                color: wheat;
+            }
+        </style>
+
     </h:head>
     <h:body>
-        Hello from Facelets
-        
-        <h:form>
-            
+
+
+        <h:form id="formCliente">   
             <p:growl id="growl" showDetail="true"  life="5000"/> 
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <p:menubar>
+                <p:menuitem value="  Inicio" actionListener="${clienteController.redireccion('cliente')}" icon="pi pi-home">                    
+                </p:menuitem> 
+
+                <p:submenu label="  Musica" icon="pi pi-users">
+                    <p:menuitem value="Comprar" actionListener="${clienteController.redireccion('comprar')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>
+                <p:submenu label="  Carrito" icon="pi pi-users">
+                    <p:menuitem value="Ver" actionListener="${clienteController.redireccion('carrito')}" icon="pi pi-shopping-cart"/>
+                </p:submenu>                
+
+                <p:menuitem value="  Salir" actionListener="${clienteController.cerrarSesion()}" icon="pi pi-sign-out">               
+                </p:menuitem> 
+
+            </p:menubar>
+
         </h:form>
-        
+
     </h:body>
 </html>
 

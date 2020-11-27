@@ -34,7 +34,7 @@ public class AdministradorController implements Serializable {
     private SessionKey sessionKey;
 
     /**
-     * Creates a new instance of AdmiistradorController
+     * Creates a new instance of AdministradorController
      */
     public AdministradorController() {
         
