@@ -62,7 +62,7 @@ public class AlbumesController implements Serializable {
     /**
      * variables para la creacion de un album
      */
-    
+
     private String nombre;
     private double precio;
     private String duracion;
@@ -114,7 +114,7 @@ public class AlbumesController implements Serializable {
 
     public void onClickCanciones(int id_album) {
         this.setListadoCanciones(new AdminService().BuscarCanciones_XAlbum(id_album));
-        this.listadoCanciones = this.getListadoCanciones();                
+        this.listadoCanciones = this.getListadoCanciones();
         this.idAlbum = id_album;
         this.setIdAlbum(this.idAlbum);
         PrimeFaces current = PrimeFaces.current();
@@ -125,14 +125,14 @@ public class AlbumesController implements Serializable {
     public void onClickNewAlbum(int id_artistA) {
         PrimeFaces current = PrimeFaces.current();
         this.newId_Artista = id_artistA;
-        this.setNewId_Artista(this.newId_Artista);              
+        this.setNewId_Artista(this.newId_Artista);
         current.executeScript("PF('dlgNewAlbum').show();");
     }
 
     public void onClickNewCancion(int id_artistA) {
         PrimeFaces current = PrimeFaces.current();
         this.newId_Artista = id_artistA;
-        this.setNewId_Artista(this.newId_Artista);        
+        this.setNewId_Artista(this.newId_Artista);
         current.executeScript("PF('dlgNewCanciones').show();");
     }
 
@@ -186,10 +186,13 @@ public class AlbumesController implements Serializable {
     public void crearAlbum() {
         PrimeFaces current = PrimeFaces.current();
 
-        if (this.fileName.equals("") || this.fileName == null) {
+        if (this.fileName == null) {
             this.Alerta("Debe seleccionar una imagen!", " ATENCION!!", FacesMessage.SEVERITY_WARN);
             return;
-        } else {
+        }else if(this.getNombre() == null|| this.getPrecio() == 0 || this.getDuracion() == null|| this.getAnio() == null ) {
+            this.Alerta("Debe llenar todos los campos", " ERROR!!", FacesMessage.SEVERITY_ERROR);
+            return;
+        }else {
             FacesContext context = FacesContext.getCurrentInstance();
             ServletContext scontext = (ServletContext) context.getExternalContext().getContext();
             String savePath = scontext.getRealPath("/resources/images/");
@@ -211,7 +214,7 @@ public class AlbumesController implements Serializable {
                 String extension = FilenameUtils.getExtension(this.getFileName());
                 Path file = Files.createTempFile(folder, filename + "-", "." + extension);
                 Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-                url = file.getFileName().toString();              
+                url = file.getFileName().toString();
 
             } catch (IOException ex) {
             }
@@ -231,20 +234,26 @@ public class AlbumesController implements Serializable {
 
     public void crearCancion() {
         PrimeFaces current = PrimeFaces.current();
-        
-        Cancion newCancion = new Cancion();
-        newCancion.setNombre(this.getNombreCancion());
-       // newCancion.setPrecio(this.getPrecioCancion());
-        newCancion.setDuracion(this.getDuracionCancion());
-        newCancion.setId_album(this.getIdAlbum());
-        newCancion.setId_artista(this.getId_Artista());       
-        if (new AdminService().CrearCancion(newCancion)) {
-            current.executeScript("PF('dlgNewCanciones').hide();");
-            this.Alerta("Cancion creada satisfactoriamente", " EXITO!!", FacesMessage.SEVERITY_INFO);
+
+        if (this.getNombreCancion().equals("") || this.getNombreCancion() == null
+                || this.getDuracionCancion().equals("") || this.getDuracionCancion() == null) {
+            this.Alerta("Debe llenar todos los campos", " ERROR!!", FacesMessage.SEVERITY_ERROR);
+            return;
         } else {
-            this.Alerta("No se pudo crear la Cancion", " ERROR!!", FacesMessage.SEVERITY_FATAL);
+            Cancion newCancion = new Cancion();
+            newCancion.setNombre(this.getNombreCancion());
+            // newCancion.setPrecio(this.getPrecioCancion());
+            newCancion.setDuracion(this.getDuracionCancion());
+            newCancion.setId_album(this.getIdAlbum());
+            newCancion.setId_artista(this.getId_Artista());
+            if (new AdminService().CrearCancion(newCancion)) {
+                current.executeScript("PF('dlgNewCanciones').hide();");
+                this.Alerta("Cancion creada satisfactoriamente", " EXITO!!", FacesMessage.SEVERITY_INFO);
+            } else {
+                this.Alerta("No se pudo crear la Cancion", " ERROR!!", FacesMessage.SEVERITY_FATAL);
+            }
         }
-        
+
     }
 
     public void listenerFile(FileUploadEvent event) {

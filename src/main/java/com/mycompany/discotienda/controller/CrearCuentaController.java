@@ -64,6 +64,10 @@ public class CrearCuentaController implements Serializable {
             Logger.getLogger(AdministradorController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String inicio(){
+        return "index";
+    }
 
     public String login() {
         return "login";

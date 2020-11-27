@@ -5,6 +5,9 @@
  */
 package com.mycompany.discotienda.pojo;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotNull;
+
 /**
  *
  * @author SpacemanFromHell
@@ -13,7 +16,7 @@ public class Cancion {
     
     private int id;
     private String nombre;
-    private String duracion;
+    private String duracion;   
     private double precio;
     private int estado;
     private int id_artista;

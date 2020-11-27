@@ -67,7 +67,8 @@
                 color: white;
                 border-color: white;
                 margin-left: 2%;
-                margin-top: 2%;
+                margin-top: 2%;               
+
             }
 
             body .ui-button.ui-state-hover{
@@ -148,6 +149,11 @@
                 padding-right: 20%;
                 height: 80%;
             }
+            body .ui-panel {
+                padding-left: 45%;
+                padding-right: 40%;
+                
+            }
 
 
 
@@ -213,7 +219,7 @@
                 <p:column headerText="Artista" sortBy="#{pedido.artista}">                   
                     <h:outputText value="#{pedido.artista}" />
                 </p:column>
-                
+
                 <p:column headerText="Articulo" sortBy="#{pedido.tipo}">                   
                     <h:outputText value="#{pedido.tipo}" />
                 </p:column>
@@ -229,9 +235,10 @@
 
             </p:dataTable>
 
-            <p:commandButton id="botonComprar" value="Comprar" actionListener="${carritoController.Comprar()}"  ajax="true" update=":formCliente">                        
-            </p:commandButton>
-
+            <p:panel id="panelbtn">
+                <p:commandButton id="botonComprar" value="Comprar" actionListener="${carritoController.Comprar()}"  ajax="true" update=":formCliente">                        
+                </p:commandButton>
+            </p:panel>
         </h:form>
     </h:body>
 </html>

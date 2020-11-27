@@ -125,7 +125,7 @@ public class CarritoController implements Serializable {
         compra.setListArticulos(articulos);
         
         new CompraService().RealizarCompra(compra);
-        this.setFacturaFin(null);
+        this.facturaFin = new ArrayList<Factura>();
     }
 
     public void Alerta(String mensaje, String tipo, FacesMessage.Severity clase) {
